@@ -10,8 +10,6 @@ import {
   Box,
   Container,
   Typography,
-  FormGroup,
-  FormControlLabel,
   Checkbox,
 } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
@@ -55,7 +53,7 @@ const ICPForm = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'start',
+        alignItems: 'center',
         mt: 4,
         bgcolor: '#444444',
         p: 3,
