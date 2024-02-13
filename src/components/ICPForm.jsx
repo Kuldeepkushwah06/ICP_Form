@@ -47,13 +47,7 @@ const ICPForm = () => {
     console.log(data);
   };
 
-  function toggleCheckbox(value, array) {
-    if (array.includes(value)) {
-      return array.filter((item) => item !== value);
-    } else {
-      return [...array, value];
-    }
-  }
+
 
   return (
     <Container
@@ -63,10 +57,10 @@ const ICPForm = () => {
         flexDirection: 'column',
         alignItems: 'start',
         mt: 4,
-        bgcolor: '#444444', 
+        bgcolor: '#444444',
         p: 3,
         borderRadius: 2,
-        color: 'white', 
+        color: 'white',
       }}
     >
       <Typography variant="h5" gutterBottom>
@@ -80,7 +74,7 @@ const ICPForm = () => {
         fullWidth
         margin="normal"
         InputProps={{
-          sx: { bgcolor: 'white', borderRadius: 1, color: 'gray' }, 
+          sx: { bgcolor: 'white', borderRadius: 1, color: 'gray' },
         }}
       />
 
@@ -93,7 +87,7 @@ const ICPForm = () => {
         rows={4}
         margin="normal"
         InputProps={{
-          sx: { bgcolor: 'white', borderRadius: 1, color: 'gray' }, 
+          sx: { bgcolor: 'white', borderRadius: 1, color: 'gray' },
         }}
       />
 
@@ -104,20 +98,20 @@ const ICPForm = () => {
         fullWidth
         margin="normal"
         InputProps={{
-          sx: { bgcolor: 'white', borderRadius: 1, color: 'gray' }, 
+          sx: { bgcolor: 'white', borderRadius: 1, color: 'gray' },
         }}
       />
 
       <FormControl fullWidth margin="normal">
-        <InputLabel
-          sx={{ color: stage ? 'black' : 'white' }}
-        >Stage</InputLabel>
+        {!stage ? (
+          <InputLabel sx={{ color: 'white' }}>Stage</InputLabel>
+        ) : null}
 
         <Select
           value={stage}
           onChange={(e) => setStage(e.target.value)}
           displayEmpty
-          sx={{ bgcolor: 'white', borderRadius: 1, color: 'gray' }} 
+          sx={{ bgcolor: 'white', borderRadius: 1, color: 'gray' }}
         >
           <MenuItem disabled value="">
             <em>Select Stage</em>
@@ -128,30 +122,31 @@ const ICPForm = () => {
 
       </FormControl>
 
-      <FormGroup column sx={{display:'flex',flexDirection:'column',  alignItems:'start',mt:2 }}>
-        <Typography sx={{ color: 'white', marginBottom: 1 }}>Type</Typography>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={type.includes('Mobile')}
-              onChange={() => setType((prevType) => toggleCheckbox('Mobile', prevType))}
-              sx={{ color: 'gray' }}
-            />
-          }
-          label="Mobile"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={type.includes('Web')}
-              onChange={() => setType((prevType) => toggleCheckbox('Web', prevType))}
-              sx={{ color: 'gray' }}
-            />
-          }
-          label="Web"
-        />
-      </FormGroup>
-
+      <FormControl fullWidth margin="normal">
+  {!type.length ? (
+    <InputLabel sx={{ color: 'gray' }}>Type</InputLabel>
+  ) : null}
+  
+  <Select
+    multiple
+    value={type}
+    onChange={(e) => setType(e.target.value)}
+    displayEmpty
+    sx={{ bgcolor: 'white', borderRadius: 1, color: 'gray' }}
+  >
+    <MenuItem disabled value="">
+      <em>Select Type</em>
+    </MenuItem>
+    <MenuItem value="Mobile">
+      <Checkbox checked={type.includes('Mobile')} />
+      Mobile
+    </MenuItem>
+    <MenuItem value="Web">
+      <Checkbox checked={type.includes('Web')} />
+      Web
+    </MenuItem>
+  </Select>
+</FormControl>
       {compositorsLinks.map((link, index) => (
         <Box key={index} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
           <TextField
@@ -162,14 +157,16 @@ const ICPForm = () => {
               updatedLinks[index] = e.target.value;
               setCompositorsLinks(updatedLinks);
             }}
-            sx={{ flexGrow: 1, bgcolor: 'white', borderRadius: 1, color: 'gray' }} 
+            sx={{ flexGrow: 1, bgcolor: 'white', borderRadius: 1, color: 'gray' }}
           />
           {index === compositorsLinks.length - 1 ? (
-            <Button onClick={handleAddCompositorLink} startIcon={<Add sx={{ marginLeft: 1 }} />} sx={{ ml: 1, borderRadius:
-              15, bgcolor: 'primary.main', color: 'white' }}> 
+            <Button onClick={handleAddCompositorLink} startIcon={<Add sx={{ marginLeft: 1 }} />} sx={{
+              ml: 1, borderRadius:
+                15, bgcolor: 'primary.main', color: 'white'
+            }}>
             </Button>
           ) : (
-            <Button onClick={() => handleRemoveCompositorLink(index)} startIcon={<Remove sx={{ marginLeft: 1 }} />} sx={{ ml: 1, borderRadius: 15, bgcolor: 'error.main', color: 'white' }}> 
+            <Button onClick={() => handleRemoveCompositorLink(index)} startIcon={<Remove sx={{ marginLeft: 1 }} />} sx={{ ml: 1, borderRadius: 15, bgcolor: 'error.main', color: 'white' }}>
             </Button>
           )}
         </Box>
