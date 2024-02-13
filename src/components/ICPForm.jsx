@@ -10,6 +10,9 @@ import {
   Box,
   Container,
   Typography,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
 } from '@mui/material';
 import { Add, Remove } from '@mui/icons-material';
 
@@ -44,13 +47,21 @@ const ICPForm = () => {
     console.log(data);
   };
 
+  function toggleCheckbox(value, array) {
+    if (array.includes(value)) {
+      return array.filter((item) => item !== value);
+    } else {
+      return [...array, value];
+    }
+  }
+
   return (
     <Container
       maxWidth="sm"
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'start',
         mt: 4,
         bgcolor: '#444444', 
         p: 3,
@@ -117,25 +128,29 @@ const ICPForm = () => {
 
       </FormControl>
 
-      <FormControl fullWidth margin="normal">
-        <InputLabel
-          
-          sx={{ color: type.length ? 'black' : 'gray' }}
-        >Type</InputLabel>
-        <Select
-          multiple
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-          displayEmpty
-          sx={{ bgcolor: 'white', borderRadius: 1, color: 'gray' }} 
-        >
-          <MenuItem disabled value="">
-            <em>Select Type</em>
-          </MenuItem>
-          <MenuItem value="Mobile">Mobile</MenuItem>
-          <MenuItem value="Web">Web</MenuItem>
-        </Select>
-      </FormControl>
+      <FormGroup column sx={{display:'flex',flexDirection:'column',  alignItems:'start',mt:2 }}>
+        <Typography sx={{ color: 'white', marginBottom: 1 }}>Type</Typography>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={type.includes('Mobile')}
+              onChange={() => setType((prevType) => toggleCheckbox('Mobile', prevType))}
+              sx={{ color: 'gray' }}
+            />
+          }
+          label="Mobile"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={type.includes('Web')}
+              onChange={() => setType((prevType) => toggleCheckbox('Web', prevType))}
+              sx={{ color: 'gray' }}
+            />
+          }
+          label="Web"
+        />
+      </FormGroup>
 
       {compositorsLinks.map((link, index) => (
         <Box key={index} sx={{ display: 'flex', alignItems: 'center', marginTop: 2 }}>
@@ -168,3 +183,4 @@ const ICPForm = () => {
 };
 
 export default ICPForm;
+
